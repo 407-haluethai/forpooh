@@ -11,12 +11,21 @@ class TeacherController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //ดึงข้อมูลอาจารย์ทั้งหมดจากฐานข้อมูล   
-        $teachers = Teacher::all();
-        return Inertia::render('Teachers/Index', ['teachers' => $teachers]);
+        $search = $request->input('search', '');
 
+        $teachers = Teacher::query()
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                      ->orWhere('email', 'like', "%{$search}%");
+            })
+            ->orderBy('name', 'asc')
+            ->paginate(10);
+
+            return Inertia::render('Teachers/Index', [
+                'teachers' => $teachers,
+        ]);
     }
 
     /**

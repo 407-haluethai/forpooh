@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('course_code')->unique();
-            $table->string('name');
-            $table->integer('credit');
+            $table->string('name');//เพิ่มชื่อวิชา
+            $table->integer('credit');//เพิ่มจำนวนหน่วยกิต
             $table->timestamps();
         });
     }

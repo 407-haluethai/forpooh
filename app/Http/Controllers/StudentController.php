@@ -19,52 +19,66 @@ class StudentController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        //
-
+        return view('students.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Store a new student
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'student_id' => 'required|unique:students',
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+        ]);
+
+        Student::create($request->all());
+
+        return redirect()->route('students.index')
+            ->with('success', 'Student created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Student $student)
+    // Show a student's details
+    public function show($id)
     {
-        //
+        $student = Student::find($id);
+        return view('students.show', compact('student'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Student $student)
+    // Show form to edit a student
+    public function edit($id)
     {
-        //
+        $student = Student::find($id);
+        return view('students.edit', compact('student'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Student $student)
+    // Update a student
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'student_id' => 'required|unique:students,student_id,'.$id,
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+        ]);
+
+        $student = Student::find($id);
+        $student->update($request->all());
+
+        return redirect()->route('students.index')
+            ->with('success', 'Student updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Student $student)
+    // Delete a student
+    public function destroy($id)
     {
-        //
+        $student = Student::find($id);
+        $student->delete();
+
+        return redirect()->route('students.index')
+            ->with('success', 'Student deleted successfully.');
     }
 }

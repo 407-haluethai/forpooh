@@ -98,6 +98,9 @@ export default function Index() {
                                 <th className="border p-4 text-gray-700 cursor-pointer" onClick={() => handleSort('email')}>
                                     อีเมล {sortConfig.key === 'email' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                                 </th>
+                                <th className="border p-4 text-gray-700 cursor-pointer" onClick={() => handleSort('phone')}>
+                                    เบอร์ {sortConfig.key === 'phone' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -106,6 +109,7 @@ export default function Index() {
                                     <td className="border p-4">{student.student_id}</td>
                                     <td className="border p-4">{student.name}</td>
                                     <td className="border p-4">{student.email}</td>
+                                    <td className="border p-4">{student.phone}</td>
                                 </tr>
                             ))}
                         </tbody>

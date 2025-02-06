@@ -5,22 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Register;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-
+use App\Models\Course;
 
 class RegisterController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing aof the resource.
      */
     public function index()
     {
         //
         // ดึงข้อมูลที่เกี่ยวข้อง
-        $registers = Register::with(['student', 'course', 'teacher'])->get()->map(function ($register) {
+        $registers = Register::with(['student', 'course', 'teacher',])->get()->map(function ($register) {
             return [
                 'id' => $register->id,
+                'student_id' => $register->student->student_id,
                 'student_name' => $register->student->name,  // ชื่อของนักศึกษา
-                'course_name' => $register->course->name,    // ชื่อของหลักสูตร
+                'title' => $register->course->title,    // ชื่อของหลักสูตร
+                'course_code' => $register->course->course_code,  // รหัสหลักสูตร
             ];
         });
 
@@ -31,52 +33,64 @@ class RegisterController extends Controller
 
      }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        //
-       
+        return view('courses.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Store a new course
     public function store(Request $request)
     {
+        $request->validate([
+            'course_code' => 'required|unique:courses',
+            'name' => 'required',
+            'credit' => 'required|integer',
+        ]);
 
+        Course::create($request->all());
+
+        return redirect()->route('courses.index')
+            ->with('success', 'Course created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Register $register)
+    // Show a course's details
+    public function show($id)
     {
-        //
+        $course = Course::find($id);
+        return view('courses.show', compact('course'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Register $register)
+    // Show form to edit a course
+    public function edit($id)
     {
-        //
+        $course = Course::find($id);
+        return view('courses.edit', compact('course'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Register $register)
+    // Update a course
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'course_code' => 'required|unique:courses,course_code,'.$id,
+            'name' => 'required',
+            'credit' => 'required|integer',
+        ]);
+
+        $course = Course::find($id);
+        $course->update($request->all());
+
+        return redirect()->route('courses.index')
+            ->with('success', 'Course updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Register $register)
+    // Delete a course
+    public function destroy($id)
     {
-        //
+        $course = Course::find($id);
+        $course->delete();
+
+        return redirect()->route('courses.index')
+            ->with('success', 'Cour se deleted successfully.');
     }
 }

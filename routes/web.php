@@ -18,13 +18,14 @@ Route::get('/', function () {
     ]);
 });
 
-
+Route::resource('courses', CourseController::class);
+Route::resource('students', StudentController::class);
 
 Route::get('/students', [StudentController::class, 'index'])->name('students');
 Route::get('/courses', [CourseController::class, 'index'])->name('courses');
 Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers');
 Route::get('/registers', [RegisterController::class, 'index'])->name('registers');
-
+Route::post('/students/store', [StudentController::class, 'store']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

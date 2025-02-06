@@ -188,7 +188,7 @@ export default function AuthenticatedLayout({ header, children }) {
                         >
                             registers
                         </ResponsiveNavLink>
-                        
+
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4">

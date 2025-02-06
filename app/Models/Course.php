@@ -10,5 +10,10 @@ class Course extends Model
     use HasFactory;
 
     protected $fillable = ['course_code', 'title', 'credits'];
+
+    public function registers()
+    {
+        return $this->hasMany(Register::class);
+    }
 }
 

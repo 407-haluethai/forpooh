@@ -16,10 +16,16 @@ class StudentSeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        Student::factory(10)->create();
-        Course::factory(10)->create();
-        Teacher::factory(10)->create();
-        Register::factory(30)->create();
+        // สร้างข้อมูลนักศึกษา, วิชา, และอาจารย์
+        $students = Student::factory(10)->create();
+        $courses = Course::factory(10)->create();
+        $teachers = Teacher::factory(10)->create();
+
+        // สุ่มให้นักศึกษาลงทะเบียนเรียนหลายวิชา (Many-to-Many)
+        foreach ($students as $student) {
+            $student->courses()->attach( // ใช้ attach() เพื่อบันทึกใน pivot table registers
+                $courses->random(rand(1, 5))->pluck('id')->toArray()
+            );
+        }
     }
 }

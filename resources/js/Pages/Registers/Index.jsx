@@ -91,8 +91,17 @@ export default function Index() {
                                     <th className="border p-4 text-gray-700 cursor-pointer hover:bg-gray-400" onClick={() => handleSort('id')}>
                                         รหัสลงทะเบียน {sortConfig.key === 'id' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                                     </th>
+                                    <th className="border p-4 text-gray-700 cursor-pointer hover:bg-gray-400" onClick={() => handleSort('student_if')}>
+                                        รหัสนักศึกษา {sortConfig.key === 'student_id' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                                        </th>
                                     <th className="border p-4 text-gray-700 cursor-pointer hover:bg-gray-400" onClick={() => handleSort('student_name')}>
                                         นักศึกษา {sortConfig.key === 'student_name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                                    </th>
+                                    <th className="border p-4 text-gray-700 cursor-pointer hover:bg-gray-400" onClick={() => handleSort('course_code')}>
+                                        รหัสวิชา {sortConfig.key === 'course_code' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                                    </th>
+                                    <th className="border p-4 text-gray-700 cursor-pointer hover:bg-gray-400" onClick={() => handleSort('title')}>
+                                        ชื่อวิชา {sortConfig.key === 'title' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                                     </th>
                                 </tr>
                             </thead>
@@ -100,7 +109,10 @@ export default function Index() {
                                 {displayedRegisters.map((register) => (
                                     <tr key={register.id} className="text-center even:bg-gray-100 odd:bg-white hover:bg-gray-200">
                                         <td className="border p-4">{register.id}</td>
+                                        <td className="border p-4">{register.student_id}</td>
                                         <td className="border p-4">{register.student_name}</td>
+                                        <td className="border p-4">{register.course_code}</td>
+                                        <td className="border p-4">{register.title}</td>
                                     </tr>
                                 ))}
                             </tbody>

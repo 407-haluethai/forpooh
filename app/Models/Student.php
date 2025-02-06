@@ -9,5 +9,10 @@ class Student extends Model {
     use HasFactory;
     // กำหนดชื่อตารางในฐานข้อมูล
     protected $fillable = ['student_id', 'name', 'email', 'phone'];
+
+    public function registers()
+    {
+        return $this->hasMany(Register::class);
+    }
 }
 
