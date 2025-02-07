@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
+
 export default function Index() {
     const { registers } = usePage().props;
     const [searchTerm, setSearchTerm] = useState('');
